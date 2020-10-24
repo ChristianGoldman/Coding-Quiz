@@ -27,6 +27,7 @@ function begin () {
     console.log(timerId);
     // show starting time
     timerEl.textContent = time;
+    renderQuestions();
 }
 
 function startCountDown() {
@@ -40,8 +41,27 @@ function startCountDown() {
 }
 
 function renderQuestions() {
+    // get current question object from the array "questions"
     let newQ = questions[runningQuestionIndex];
-    // let newQuestion = document.querySelector("question");
-    questionEl.textContent = newQ.title;
+    let newQuestion = document.querySelector("#question");
+    // displaying the current question
+    newQuestion.textContent = newQ.title;
+    // filling in different choices
+    let newChoiceA = document.querySelector("#choiceA");
+    newChoiceA.textContent = newQ.choiceA;
+   
+    let newChoiceB = document.querySelector("#choiceB");
+    newChoiceB.textContent = newQ.choiceB;
+   
+    let newChoiceC = document.querySelector("#choiceC");
+    newChoiceC.textContent = newQ.choiceC;
+   
+    let newChoiceD = document.querySelector("#choiceD");
+    newChoiceD.textContent = newQ.choiceD;
+    
+
+
+
+
 }
 buttonStart.onclick = begin;
