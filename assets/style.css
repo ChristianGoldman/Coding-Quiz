@@ -1,0 +1,28 @@
+.beginQuiz h1 {
+    text-align: center;
+}
+
+.container {
+    background-color: goldenrod;
+    width: 80%;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.hide {
+    display: none;
+}
+
+.choices {
+    display: block;
+    font-size: 40px;
+}
+
+#question {
+    font-size: 40px;
+    text-align: center;
+}
+
+#buttonA, #buttonB, #buttonC, #buttonD {
+    width: 50px;
+}
