@@ -1,14 +1,14 @@
 let time = 75;
 let timerId;
-let lastQuestionIndex = questions.length - 1;
 let runningQuestionIndex = 0;
 let timerEl = document.querySelector("#time");
 let beginQuiz = document.querySelector("#quizCard");
 let buttonStart = document.querySelector("#buttonStart");
+let btnHigh = document.querySelector("#btnHighScore");
 let buttonEl = document.querySelector("#buttons");;
-let choicesEl = document.querySelector(".choices");
+let choicesEl = document.querySelector("#choices");
 let questionEl = document.querySelector("#question");
-let feedbackEl = document.querySelector(".feedback");
+let feedbackEl = document.querySelector("#feedback");
 
 function begin() {
     // hide intro screen
@@ -40,6 +40,8 @@ function renderQuestions() {
     let newQuestion = document.querySelector("#question");
     // displaying the current question
     newQuestion.textContent = newQ.title;
+    // clear out old questions
+    choicesEl.innerHTML = "";
     // filling in different choices
     newQ.choices.forEach(function(choice, i) {
         let choiceBtn = document.createElement("button")
@@ -47,8 +49,8 @@ function renderQuestions() {
         choiceBtn.setAttribute("class", "choice");
         choiceBtn.setAttribute("value", choice);
         choiceBtn.textContent = i + 1 + ". " + choice;
-        // displaying choices inside a button
         choiceBtn.onclick = buttonClick;
+        // displaying choices inside a button
         choicesEl.appendChild(choiceBtn);        
     });
 }
@@ -65,7 +67,7 @@ function buttonClick() {
         timerEl.textContent = time;
         feedbackEl.textContent = "Wrong!";
     } else {
-        feedbackEl.textContent = "YES!";
+        feedbackEl.textContent = "Correct!";
     }
 
     feedbackEl.setAttribute("class", "feedback");
@@ -78,8 +80,51 @@ function buttonClick() {
     if (runningQuestionIndex === questions.length) {
         endQuiz();
     } else {
-        renderQuestions();
+        renderQuestions();     
     }
 }
 
+function endQuiz() {
+    // timerEl.textContent = 0;
+    clearInterval(timerId);
+
+    showById("#saveScores");
+
+    let finalScore = document.querySelector("#finalTime");
+    finalScore.textContent = time;
+    
+    beginQuiz.setAttribute("class", "hide");
+    
+    showHighScores();
+}
+
+function showById(elementId) {
+    let anEl = document.querySelector(elementId);
+    anEl.removeAttribute("class");
+}
+
+function showHighScores() {
+    let introScreen = document.querySelector("#introScreen");
+    introScreen.setAttribute("class", "hide");
+    showById("#highScores");
+}
+
+function showHomeScreen() {
+    let introScreen = document.querySelector("#introScreen");
+    introScreen.setAttribute("class", "homeScreenStyle");
+    let highScoreEl = document.querySelector("#highScores");
+    highScoreEl.setAttribute("class", "hide");
+    let saveScoresEl = document.querySelector("#saveScores");
+    saveScoresEl.setAttribute("class", "hide");
+
+}
+
+function displayScore() {
+    let intEl = document.querySelector("#initials");
+    // let hsEl = document.querySelector("#highScores");
+    intEl.textContent.appendChild("#highScores"); 
+}
 buttonStart.onclick = begin;
+btnHigh.onclick = showHighScores;
+document.querySelector("#homeScreen").onclick = showHomeScreen;
+document.querySelector("#submit").onclick = displayScore;
