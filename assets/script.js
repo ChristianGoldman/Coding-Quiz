@@ -2,21 +2,15 @@ let time = 75;
 let timerId;
 let lastQuestionIndex = questions.length - 1;
 let runningQuestionIndex = 0;
-
 let timerEl = document.querySelector("#time");
 let beginQuiz = document.querySelector("#quizCard");
 let buttonStart = document.querySelector("#buttonStart");
-let buttonA = document.querySelector("#buttonA");
-let buttonB = document.querySelector("#buttonB");
-let buttonC = document.querySelector("#buttonC");
-let buttonD = document.querySelector("#buttonD");
-let choiceA = document.querySelector("#choiceA");
-let choiceB = document.querySelector("#choiceB");
-let choiceC = document.querySelector("#choiceC");
-let choiceD = document.querySelector("#choiceD");
+let buttonEl = document.querySelector("#buttons");;
+let choicesEl = document.querySelector(".choices");
 let questionEl = document.querySelector("#question");
+let feedbackEl = document.querySelector(".feedback");
 
-function begin () {
+function begin() {
     // hide intro screen
     let introScreen = document.querySelector("#introScreen");
     introScreen.setAttribute("class", "hide");
@@ -47,21 +41,45 @@ function renderQuestions() {
     // displaying the current question
     newQuestion.textContent = newQ.title;
     // filling in different choices
-    let newChoiceA = document.querySelector("#choiceA");
-    newChoiceA.textContent = newQ.choiceA;
-   
-    let newChoiceB = document.querySelector("#choiceB");
-    newChoiceB.textContent = newQ.choiceB;
-   
-    let newChoiceC = document.querySelector("#choiceC");
-    newChoiceC.textContent = newQ.choiceC;
-   
-    let newChoiceD = document.querySelector("#choiceD");
-    newChoiceD.textContent = newQ.choiceD;
-    
-
-
-
-
+    newQ.choices.forEach(function(choice, i) {
+        let choiceBtn = document.createElement("button")
+        console.log(choiceBtn);
+        choiceBtn.setAttribute("class", "choice");
+        choiceBtn.setAttribute("value", choice);
+        choiceBtn.textContent = i + 1 + ". " + choice;
+        // displaying choices inside a button
+        choiceBtn.onclick = buttonClick;
+        choicesEl.appendChild(choiceBtn);        
+    });
 }
+
+function buttonClick() {
+    if(this.value !== questions[runningQuestionIndex].correct) {
+
+        time -= 15;
+
+        if (time < 0) {
+            time = 0;
+        }
+
+        timerEl.textContent = time;
+        feedbackEl.textContent = "Wrong!";
+    } else {
+        feedbackEl.textContent = "YES!";
+    }
+
+    feedbackEl.setAttribute("class", "feedback");
+    setTimeout(function() {
+        feedbackEl.setAttribute("class", "feedback hide");
+    }, 1000);
+
+    runningQuestionIndex++;
+
+    if (runningQuestionIndex === questions.length) {
+        endQuiz();
+    } else {
+        renderQuestions();
+    }
+}
+
 buttonStart.onclick = begin;
