@@ -120,9 +120,10 @@ function showHomeScreen() {
 }
 
 function displayScore() {
-    let intEl = document.querySelector("#initials");
-    // let hsEl = document.querySelector("#highScores");
-    intEl.textContent.appendChild("#highScores"); 
+    let intEl = document.querySelector("#initials").value;
+    let hs = document.querySelector("#highScores");
+    hs.prepend(intEl + "-" + time); 
+    
 }
 buttonStart.onclick = begin;
 btnHigh.onclick = showHighScores;
