@@ -116,6 +116,9 @@ function showHomeScreen() {
     highScoreEl.setAttribute("class", "hide");
     let saveScoresEl = document.querySelector("#saveScores");
     saveScoresEl.setAttribute("class", "hide");
+    runningQuestionIndex = 0;
+    time = 75;
+    time.textContent = time
 
 }
 
@@ -123,7 +126,17 @@ function displayScore() {
     let intEl = document.querySelector("#initials").value;
     let hs = document.querySelector("#highScores");
     hs.prepend(intEl + "-" + time); 
-    
+    document.querySelector("#initials").value='';
+    if(intEl !== "") {
+        let localHigh = JSON.parse(window.localStorage.getItem("localHigh")) || [];
+
+        let newScore = {
+            score: time,
+            initials: initials
+        };
+        localHigh.push(newScore);
+        window.localStorage.setItem("localHigh", JSON.stringify(localHigh));
+    }
 }
 buttonStart.onclick = begin;
 btnHigh.onclick = showHighScores;
